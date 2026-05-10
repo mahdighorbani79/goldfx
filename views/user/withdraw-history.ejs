@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="gold-text fw-bold">📋 تاریخچه برداشت‌ها</h3>
+        <a href="/user/withdraw" class="btn btn-danger">
+            <i class="bi bi-dash-circle"></i> برداشت جدید
+        </a>
+    </div>
+
+    <div class="card bg-dark border-0 shadow">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr class="text-warning">
+                            <th>#</th>
+                            <th>مبلغ (USDT)</th>
+                            <th>آدرس مقصد</th>
+                            <th>وضعیت</th>
+                            <th>توضیحات</th>
+                            <th>تاریخ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (withdraws.length > 0) { %>
+                            <% withdraws.forEach((tx, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td>
+                                    <td class="fw-bold text-danger"><%= tx.amount.toFixed(2) %></td>
+                                    <td class="small text-muted">
+                                        <%= tx.walletAddress ? tx.walletAddress.slice(0, 10) + '...' : '---' %>
+                                    </td>
+                                    <td>
+                                        <% if (tx.status === 'approved') { %>
+                                            <span class="badge bg-success">تأیید شده ✅</span>
+                                        <% } else if (tx.status === 'pending') { %>
+                                            <span class="badge bg-warning text-dark">در انتظار ⏳</span>
+                                        <% } else { %>
+                                            <span class="badge bg-danger">رد شده ❌</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="small text-muted"><%= tx.adminNote || tx.description || '---' %></td>
+                                    <td class="small"><%= new Date(tx.date).toLocaleString('fa-IR') %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                                    هیچ برداشتی یافت نشد
+                                    <br>
+                                    <a href="/user/withdraw" class="btn btn-danger btn-sm mt-3">برداشت تتر</a>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
