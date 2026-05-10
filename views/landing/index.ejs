@@ -1,0 +1,155 @@
+<%- include('../partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero-section text-center py-5 bg-black">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <h1 class="display-3 fw-bold gold-text mb-3 animate__animated animate__fadeInDown">
+                    ⚜️ GoldFX
+                </h1>
+                <p class="lead text-white mb-4 animate__animated animate__fadeInUp">
+                    سرمایه‌گذاری هوشمند در طلا با سود <span class="gold-text fw-bold">۱۰٪ روزانه</span>
+                </p>
+                <p class="text-muted mb-5 animate__animated animate__fadeInUp">
+                    با پشتوانه طلا و فارکس | واریز و برداشت فوری با تتر
+                </p>
+                <div class="animate__animated animate__fadeInUp">
+                    <a href="/auth/register" class="btn btn-warning btn-lg px-5 py-3 fw-bold me-3">
+                        <i class="bi bi-stars"></i> همین الان شروع کن
+                    </a>
+                    <a href="/auth/login" class="btn btn-outline-warning btn-lg px-5 py-3 fw-bold">
+                        <i class="bi bi-box-arrow-in-right"></i> ورود
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- پلن‌های سرمایه‌گذاری -->
+<section class="py-5 bg-dark">
+    <div class="container">
+        <h2 class="text-center gold-text mb-5 fw-bold">📊 پلن‌های سرمایه‌گذاری</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card bg-black border-warning h-100 shadow-lg">
+                    <div class="card-body text-center p-4">
+                        <h3 class="text-secondary mb-3">🥉 نقره‌ای</h3>
+                        <p class="text-white mb-2">سرمایه: <strong>۱۰ - ۵۰۰ تتر</strong></p>
+                        <p class="text-warning mb-3">سود روزانه: <strong>۱۰٪</strong></p>
+                        <p class="text-muted small mb-4">مناسب شروع سرمایه‌گذاری</p>
+                        <a href="/auth/register" class="btn btn-outline-secondary w-100">شروع کنید</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-black border-warning h-100 shadow-lg highlight-card">
+                    <div class="card-body text-center p-4">
+                        <span class="badge bg-warning text-dark mb-3">پرطرفدار</span>
+                        <h3 class="text-warning mb-3">🥈 طلایی</h3>
+                        <p class="text-white mb-2">سرمایه: <strong>۵۰۰ - ۲۰۰۰ تتر</strong></p>
+                        <p class="text-warning mb-3">سود روزانه: <strong>۱۲٪</strong></p>
+                        <p class="text-muted small mb-4">بهترین بازدهی برای سرمایه متوسط</p>
+                        <a href="/auth/register" class="btn btn-warning w-100 fw-bold">شروع کنید</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-black border-warning h-100 shadow-lg">
+                    <div class="card-body text-center p-4">
+                        <h3 class="text-warning mb-3">💎 الماسی</h3>
+                        <p class="text-white mb-2">سرمایه: <strong>۲۰۰۰+ تتر</strong></p>
+                        <p class="text-warning mb-3">سود روزانه: <strong>۱۵٪</strong></p>
+                        <p class="text-muted small mb-4">حداکثر سوددهی برای سرمایه‌گذاران حرفه‌ای</p>
+                        <a href="/auth/register" class="btn btn-outline-warning w-100">شروع کنید</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- تراکنش‌های زنده -->
+<section class="py-5 bg-black">
+    <div class="container">
+        <h2 class="text-center gold-text mb-5 fw-bold">💸 آخرین تراکنش‌ها</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card bg-dark border-0 shadow">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-dark table-striped mb-0">
+                                <thead>
+                                    <tr class="text-warning">
+                                        <th>کاربر</th>
+                                        <th>مبلغ (تتر)</th>
+                                        <th>نوع</th>
+                                        <th>تاریخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% if (transactions && transactions.length > 0) { %>
+                                        <% transactions.forEach(tx => { %>
+                                            <tr>
+                                                <td><%= tx.userId ? tx.userId.fullName : 'ناشناس' %></td>
+                                                <td><%= tx.amount.toLocaleString() %></td>
+                                                <td>
+                                                    <span class="badge bg-success">واریز</span>
+                                                </td>
+                                                <td><%= new Date(tx.date).toLocaleDateString('fa-IR') %></td>
+                                            </tr>
+                                        <% }) %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-3">تراکنشی یافت نشد</td>
+                                        </tr>
+                                    <% } %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- چرا GoldFX -->
+<section class="py-5 bg-dark">
+    <div class="container">
+        <h2 class="text-center gold-text mb-5 fw-bold">✨ چرا GoldFX؟</h2>
+        <div class="row g-4 text-center">
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-shield-check display-4 text-warning mb-3"></i>
+                    <h5 class="text-white">امنیت بالا</h5>
+                    <p class="text-muted small">کیف پول‌های سرد و گرم چندلایه</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-graph-up display-4 text-warning mb-3"></i>
+                    <h5 class="text-white">سود تضمینی</h5>
+                    <p class="text-muted small">۱۰٪ سود روزانه ثابت</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-lightning display-4 text-warning mb-3"></i>
+                    <h5 class="text-white">برداشت فوری</h5>
+                    <p class="text-muted small">پرداخت آنی به کیف پول شما</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="p-3">
+                    <i class="bi bi-headset display-4 text-warning mb-3"></i>
+                    <h5 class="text-white">پشتیبانی ۲۴/۷</h5>
+                    <p class="text-muted small">پاسخگویی در تمام ساعات</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>
