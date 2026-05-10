@@ -1,0 +1,198 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <% if (festival && festival.active) { %>
+        <div class="alert alert-warning text-center fw-bold animate__animated animate__flash animate__infinite">
+            🎉 مژده! <%= festival.title %> | 
+            به مناسبت <%= festival.occasion %> | 
+            سود <strong><%= festival.profitPercent %>%</strong> روزانه | 
+            تا <%= festival.endDate ? new Date(festival.endDate).toLocaleDateString('fa-IR') : 'نامشخص' %>
+        </div>
+    <% } %>
+
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card bg-dark border-warning h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-wallet2 display-4 text-warning mb-2"></i>
+                    <h6 class="text-muted">موجودی فعلی</h6>
+                    <h3 class="gold-text fw-bold"><%= user.balance.toFixed(2) %> <small>USDT</small></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-dark border-success h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-graph-up display-4 text-success mb-2"></i>
+                    <h6 class="text-muted">سود امروز</h6>
+                    <h3 class="text-success fw-bold">+<%= todayProfit.toFixed(2) %> <small>USDT</small></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-dark border-info h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-cash-stack display-4 text-info mb-2"></i>
+                    <h6 class="text-muted">کل سود دریافتی</h6>
+                    <h3 class="text-info fw-bold"><%= user.totalProfit.toFixed(2) %> <small>USDT</small></h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="card bg-dark border-light h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-star display-4 text-light mb-2"></i>
+                    <h6 class="text-muted">سطح کاربری</h6>
+                    <h3 class="text-light fw-bold"><%= user.level %></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4 mb-3 d-grid">
+            <a href="/user/deposit" class="btn btn-success btn-lg py-3">
+                <i class="bi bi-plus-circle"></i> واریز تتر
+            </a>
+        </div>
+        <div class="col-md-4 mb-3 d-grid">
+            <a href="/user/withdraw" class="btn btn-danger btn-lg py-3">
+                <i class="bi bi-dash-circle"></i> برداشت تتر
+            </a>
+        </div>
+        <div class="col-md-4 mb-3 d-grid">
+            <a href="/user/referral" class="btn btn-info btn-lg py-3">
+                <i class="bi bi-people"></i> زیرمجموعه‌گیری
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mb-4">
+            <div class="card bg-dark border-0 shadow">
+                <div class="card-header bg-black text-warning fw-bold">
+                    📈 رشد سرمایه (شبیه‌سازی)
+                </div>
+                <div class="card-body">
+                    <canvas id="profitChart" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-dark border-0 shadow h-100">
+                <div class="card-header bg-black text-warning fw-bold">
+                    ⏰ تا سوددهی بعدی
+                </div>
+                <div class="card-body text-center d-flex align-items-center justify-content-center">
+                    <div>
+                        <h2 class="gold-text fw-bold" id="countdown">۲۳:۵۹:۵۹</h2>
+                        <p class="text-muted">ساعت</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-dark border-0 shadow">
+        <div class="card-header bg-black text-warning fw-bold">
+            📋 آخرین تراکنش‌ها
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr class="text-warning">
+                            <th>نوع</th>
+                            <th>مبلغ (USDT)</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentTransactions.forEach(tx => { %>
+                            <tr>
+                                <td>
+                                    <% if (tx.type === 'deposit') { %>
+                                        <span class="badge bg-success">واریز</span>
+                                    <% } else if (tx.type === 'withdraw') { %>
+                                        <span class="badge bg-danger">برداشت</span>
+                                    <% } else if (tx.type === 'profit') { %>
+                                        <span class="badge bg-info">سود</span>
+                                    <% } else { %>
+                                        <span class="badge bg-warning">رفرال</span>
+                                    <% } %>
+                                </td>
+                                <td><%= tx.amount.toFixed(2) %></td>
+                                <td>
+                                    <% if (tx.status === 'approved') { %>
+                                        <span class="text-success">✅</span>
+                                    <% } else if (tx.status === 'pending') { %>
+                                        <span class="text-warning">⏳</span>
+                                    <% } else { %>
+                                        <span class="text-danger">❌</span>
+                                    <% } %>
+                                </td>
+                                <td><%= new Date(tx.date).toLocaleString('fa-IR') %></td>
+                            </tr>
+                        <% }) %>
+                        <% if (recentTransactions.length === 0) { %>
+                            <tr><td colspan="4" class="text-center text-muted py-3">تراکنشی یافت نشد</td></tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// نمودار سود
+const ctx = document.getElementById('profitChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['هفته ۱', 'هفته ۲', 'هفته ۳', 'هفته ۴'],
+        datasets: [{
+            label: 'موجودی (USDT)',
+            data: [
+                <%= user.balance * 0.7 %>,
+                <%= user.balance * 0.8 %>,
+                <%= user.balance * 0.9 %>,
+                <%= user.balance %>
+            ],
+            borderColor: '#ffd700',
+            backgroundColor: 'rgba(255, 215, 0, 0.1)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { labels: { color: '#fff' } }
+        },
+        scales: {
+            y: { ticks: { color: '#fff' } },
+            x: { ticks: { color: '#fff' } }
+        }
+    }
+});
+
+// تایمر
+function updateTimer() {
+    const now = new Date();
+    const next = new Date(now);
+    next.setHours(24, 0, 0, 0);
+    const diff = next - now;
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('countdown').textContent = 
+        `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+}
+setInterval(updateTimer, 1000);
+updateTimer();
+</script>
+
+<%- include('../partials/footer') %>
