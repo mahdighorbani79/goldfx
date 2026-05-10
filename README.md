@@ -1,0 +1,2 @@
+# goldfx
+GoldFX Investment Platform
