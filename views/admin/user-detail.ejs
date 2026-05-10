@@ -1,0 +1,102 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+    <a href="/admin/users" class="btn btn-outline-warning mb-3">
+        <i class="bi bi-arrow-right"></i> بازگشت به لیست کاربران
+    </a>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card bg-dark border-warning shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-person display-4 text-warning"></i>
+                    <h5 class="text-white mt-2"><%= user.fullName %></h5>
+                    <p class="text-muted"><%= user.phone %></p>
+                    <span class="badge bg-warning text-dark"><%= user.level %></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark border-success shadow">
+                <div class="card-body text-center">
+                    <small class="text-muted">موجودی</small>
+                    <h3 class="text-success"><%= user.balance.toFixed(2) %> USDT</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark border-info shadow">
+                <div class="card-body text-center">
+                    <small class="text-muted">کل واریز</small>
+                    <h3 class="text-info"><%= user.totalDeposit.toFixed(2) %> USDT</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-dark border-danger shadow">
+                <div class="card-body text-center">
+                    <small class="text-muted">کل برداشت</small>
+                    <h3 class="text-danger"><%= user.totalWithdraw.toFixed(2) %> USDT</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card bg-dark border-0 shadow">
+                <div class="card-header bg-black text-warning">ویرایش موجودی</div>
+                <div class="card-body">
+                    <form action="/admin/users/<%= user._id %>/balance" method="POST">
+                        <div class="input-group mb-3">
+                            <input type="number" name="balance" class="form-control bg-black text-white border-warning" 
+                                   value="<%= user.balance %>" step="0.01" required>
+                            <button type="submit" class="btn btn-warning">بروزرسانی موجودی</button>
+                        </div>
+                    </form>
+                    <p class="text-muted small">کد رفرال: <strong><%= user.referralCode %></strong></p>
+                    <p class="text-muted small">تاریخ عضویت: <%= new Date(user.joinDate).toLocaleString('fa-IR') %></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card bg-dark border-0 shadow">
+                <div class="card-header bg-black text-warning">زیرمجموعه‌ها (<%= referrals.length %>)</div>
+                <div class="card-body p-0">
+                    <table class="table table-dark table-sm mb-0">
+                        <thead><tr class="text-warning"><th>نام</th><th>شماره</th></tr></thead>
+                        <tbody>
+                            <% referrals.forEach(ref => { %>
+                                <tr><td><%= ref.fullName %></td><td><%= ref.phone %></td></tr>
+                            <% }) %>
+                            <% if (referrals.length === 0) { %>
+                                <tr><td colspan="2" class="text-center text-muted">بدون زیرمجموعه</td></tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-dark border-0 shadow">
+        <div class="card-header bg-black text-warning">تاریخچه تراکنش‌ها</div>
+        <div class="card-body p-0">
+            <table class="table table-dark table-striped mb-0">
+                <thead><tr class="text-warning"><th>نوع</th><th>مبلغ</th><th>وضعیت</th><th>تاریخ</th></tr></thead>
+                <tbody>
+                    <% transactions.forEach(tx => { %>
+                        <tr>
+                            <td><%= tx.type %></td>
+                            <td><%= tx.amount.toFixed(2) %></td>
+                            <td><%= tx.status %></td>
+                            <td><%= new Date(tx.date).toLocaleString('fa-IR') %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
