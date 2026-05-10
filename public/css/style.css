@@ -1,0 +1,231 @@
+/* ========== GoldFX Main Style ========== */
+
+:root {
+    --gold: #ffd700;
+    --gold-dark: #b8860b;
+    --black: #0a0a0a;
+    --dark: #1a1a1a;
+    --darker: #111111;
+}
+
+* {
+    font-family: 'Tahoma', 'Vazirmatn', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, var(--black) 0%, var(--darker) 100%);
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+/* ========== Gold Text ========== */
+.gold-text {
+    color: var(--gold) !important;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+}
+
+/* ========== Cards ========== */
+.card {
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+}
+
+.border-warning {
+    border-color: var(--gold-dark) !important;
+}
+
+/* ========== Hero Section ========== */
+.hero-section {
+    background: radial-gradient(ellipse at center, #1a1a1a 0%, #000000 100%);
+    padding: 100px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffd700' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ========== Highlight Card ========== */
+.highlight-card {
+    border: 2px solid var(--gold) !important;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+}
+
+/* ========== Navbar ========== */
+.navbar {
+    background: rgba(10, 10, 10, 0.95) !important;
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gold-dark);
+}
+
+.navbar .nav-link {
+    color: #ccc !important;
+    transition: color 0.3s;
+}
+
+.navbar .nav-link:hover,
+.navbar .nav-link.active {
+    color: var(--gold) !important;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+/* ========== Buttons ========== */
+.btn-warning {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    border: none;
+    color: #000;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-warning:hover {
+    background: linear-gradient(135deg, var(--gold), #ffed4a);
+    color: #000;
+    box-shadow: 0 5px 20px rgba(255, 215, 0, 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-outline-warning {
+    border-color: var(--gold-dark);
+    color: var(--gold);
+}
+
+.btn-outline-warning:hover {
+    background: var(--gold-dark);
+    color: #000;
+}
+
+/* ========== Table ========== */
+.table-dark {
+    --bs-table-bg: transparent;
+    border-color: #333;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    --bs-table-accent-bg: rgba(255, 255, 255, 0.03);
+}
+
+.table th {
+    border-bottom: 2px solid var(--gold-dark);
+}
+
+/* ========== Form ========== */
+.form-control {
+    border-radius: 10px;
+    padding: 12px;
+}
+
+.form-control:focus {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 0.25rem rgba(255, 215, 0, 0.15);
+}
+
+.input-group-text {
+    border-radius: 0 10px 10px 0;
+}
+
+/* ========== Alert ========== */
+.alert-warning {
+    background: linear-gradient(135deg, rgba(184, 134, 11, 0.3), rgba(255, 215, 0, 0.2));
+    border: 1px solid var(--gold-dark);
+    color: var(--gold);
+}
+
+/* ========== Badge ========== */
+.badge {
+    border-radius: 20px;
+    padding: 5px 12px;
+}
+
+/* ========== Scrollbar ========== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--dark);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gold-dark);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+}
+
+/* ========== Animations ========== */
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 215, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+}
+
+.animate-pulse {
+    animation: pulse 2s infinite;
+}
+
+/* ========== Footer ========== */
+footer {
+    border-top: 2px solid var(--gold-dark);
+}
+
+/* ========== Glass Effect ========== */
+.glass {
+    background: rgba(26, 26, 26, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+/* ========== Countdown ========== */
+#countdown {
+    font-size: 3rem;
+    letter-spacing: 3px;
+}
+
+/* ========== Festival Banner ========== */
+.alert-warning.fw-bold {
+    animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 60px 0;
+    }
+    
+    .display-3 {
+        font-size: 2.5rem;
+    }
+    
+    #countdown {
+        font-size: 2rem;
+    }
+}
