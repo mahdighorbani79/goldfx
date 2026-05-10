@@ -1,0 +1,70 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <h3 class="gold-text fw-bold mb-4">
+        <i class="bi bi-gear"></i> تنظیمات مدیریت
+    </h3>
+
+    <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+    <% } %>
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success"><%= success %></div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="card bg-dark border-warning shadow">
+                <div class="card-header bg-black text-warning fw-bold">
+                    <i class="bi bi-person"></i> اطلاعات ادمین
+                </div>
+                <div class="card-body">
+                    <p class="text-white"><strong>نام:</strong> <%= admin.fullName %></p>
+                    <p class="text-white"><strong>شماره:</strong> <%= admin.phone %></p>
+                    <p class="text-white"><strong>سطح:</strong> ادمین کل</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card bg-dark border-warning shadow">
+                <div class="card-header bg-black text-warning fw-bold">
+                    <i class="bi bi-lock"></i> تغییر رمز عبور
+                </div>
+                <div class="card-body">
+                    <form action="/admin/settings" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-white">رمز عبور فعلی</label>
+                            <input type="password" name="currentPassword" class="form-control bg-black text-white border-warning"
+                                   placeholder="رمز فعلی را وارد کنید">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">رمز عبور جدید</label>
+                            <input type="password" name="newPassword" class="form-control bg-black text-white border-warning"
+                                   placeholder="رمز جدید (حداقل ۶ کاراکتر)">
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 fw-bold">
+                            <i class="bi bi-check-circle"></i> ذخیره تغییرات
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-dark border-warning shadow">
+        <div class="card-header bg-black text-warning fw-bold">
+            <i class="bi bi-info-circle"></i> راهنمای مدیریت
+        </div>
+        <div class="card-body text-muted">
+            <ul>
+                <li>برای تأیید واریز به بخش <a href="/admin/transactions" class="gold-text">تراکنش‌ها</a> بروید</li>
+                <li>برای فعال‌سازی جشنواره به بخش <a href="/admin/festival" class="gold-text">جشنواره</a> بروید</li>
+                <li>برای مشاهده کاربران به بخش <a href="/admin/users" class="gold-text">کاربران</a> بروید</li>
+                <li>سوددهی هر ۲۴ ساعت از زمان واریز کاربر به‌صورت خودکار انجام می‌شود</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
