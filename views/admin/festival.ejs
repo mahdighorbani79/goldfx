@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <h3 class="gold-text fw-bold mb-4">
+        <i class="bi bi-stars"></i> مدیریت جشنواره
+    </h3>
+
+    <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success text-center"><%= success %></div>
+    <% } %>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card bg-dark border-warning shadow">
+                <div class="card-body p-5">
+                    <form action="/admin/festival" method="POST">
+                        <div class="mb-4 form-check form-switch">
+                            <input type="checkbox" name="active" class="form-check-input" id="activeSwitch"
+                                   <%= festival && festival.active ? 'checked' : '' %>>
+                            <label class="form-check-label text-white fw-bold" for="activeSwitch">
+                                فعال‌سازی جشنواره
+                            </label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white">عنوان جشنواره</label>
+                            <input type="text" name="title" class="form-control bg-black text-white border-warning"
+                                   value="<%= festival ? festival.title : '' %>" 
+                                   placeholder="مثال: جشنواره نوروز">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white">مناسبت</label>
+                            <input type="text" name="occasion" class="form-control bg-black text-white border-warning"
+                                   value="<%= festival ? festival.occasion : '' %>" 
+                                   placeholder="مثال: عید نوروز ۱۴۰۴">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label text-white">درصد سود روزانه</label>
+                            <input type="number" name="profitPercent" class="form-control bg-black text-white border-warning"
+                                   value="<%= festival ? festival.profitPercent : 40 %>" min="10" max="100">
+                            <small class="text-muted">پیشنهادی: ۴۰٪</small>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label text-white">تاریخ پایان جشنواره</label>
+                            <input type="date" name="endDate" class="form-control bg-black text-white border-warning"
+                                   value="<%= (festival && festival.endDate) ? new Date(festival.endDate).toISOString().split('T')[0] : '' %>">
+                        </div>
+
+                        <button type="submit" class="btn btn-warning w-100 fw-bold py-2">
+                            <i class="bi bi-check-circle"></i> ذخیره تنظیمات جشنواره
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card bg-dark border-0 shadow">
+                <div class="card-header bg-black text-warning fw-bold">
+                    <i class="bi bi-info-circle"></i> پیش‌نمایش پیام
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning text-center fw-bold" id="previewAlert">
+                        🎉 مژده! <span id="previewTitle"><%= festival ? festival.title : '---' %></span>
+                        <br>
+                        به مناسبت <span id="previewOccasion"><%= festival ? festival.occasion : '---' %></span>
+                        <br>
+                        سود <strong><span id="previewPercent"><%= festival ? festival.profitPercent : 40 %>%</span></strong> روزانه
+                    </div>
+                    <p class="text-muted small text-center">این پیام کاربران در داشبورد می‌بینند</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// پیش‌نمایش زنده
+document.querySelector('input[name="title"]').addEventListener('input', function() {
+    document.getElementById('previewTitle').textContent = this.value || '---';
+});
+document.querySelector('input[name="occasion"]').addEventListener('input', function() {
+    document.getElementById('previewOccasion').textContent = this.value || '---';
+});
+document.querySelector('input[name="profitPercent"]').addEventListener('input', function() {
+    document.getElementById('previewPercent').textContent = this.value + '%';
+});
+</script>
+
+<%- include('../partials/footer') %>
