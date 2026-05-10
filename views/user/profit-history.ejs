@@ -1,0 +1,43 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <h3 class="gold-text fw-bold mb-4">📈 تاریخچه سودها</h3>
+
+    <div class="card bg-dark border-0 shadow">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr class="text-warning">
+                            <th>#</th>
+                            <th>مبلغ سود (USDT)</th>
+                            <th>توضیحات</th>
+                            <th>تاریخ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (profits.length > 0) { %>
+                            <% profits.forEach((tx, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td>
+                                    <td class="fw-bold text-info">+<%= tx.amount.toFixed(2) %></td>
+                                    <td class="small text-muted"><%= tx.description || 'سود روزانه' %></td>
+                                    <td class="small"><%= new Date(tx.date).toLocaleString('fa-IR') %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    <i class="bi bi-graph-up display-4 d-block mb-3"></i>
+                                    هنوز سودی دریافت نشده است
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
