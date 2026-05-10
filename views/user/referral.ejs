@@ -1,0 +1,94 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <h3 class="gold-text fw-bold mb-4">👥 زیرمجموعه‌گیری</h3>
+
+    <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+            <div class="card bg-dark border-warning h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-link-45deg display-4 text-warning mb-2"></i>
+                    <h6 class="text-muted">لینک دعوت شما</h6>
+                    <div class="input-group">
+                        <input type="text" class="form-control bg-black text-warning text-center" 
+                               value="<%= referralLink %>" id="referralLink" readonly>
+                        <button class="btn btn-warning" onclick="copyReferral()">
+                            <i class="bi bi-clipboard"></i> کپی
+                        </button>
+                    </div>
+                    <p class="text-muted small mt-2">۵٪ کمیسیون از هر واریز زیرمجموعه</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-3">
+            <div class="card bg-dark border-success h-100 shadow">
+                <div class="card-body text-center">
+                    <i class="bi bi-cash-coin display-4 text-success mb-2"></i>
+                    <h6 class="text-muted">کمیسیون دریافتی</h6>
+                    <h3 class="gold-text fw-bold"><%= user.referralComission.toFixed(2) %> USDT</h3>
+                    <p class="text-muted">تعداد زیرمجموعه: <%= referrals.length %> نفر</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-dark border-0 shadow">
+        <div class="card-header bg-black text-warning fw-bold">
+            👥 زیرمجموعه‌های شما
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr class="text-warning">
+                            <th>#</th>
+                            <th>نام</th>
+                            <th>شماره</th>
+                            <th>سطح</th>
+                            <th>تاریخ عضویت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (referrals.length > 0) { %>
+                            <% referrals.forEach((ref, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td>
+                                    <td><%= ref.fullName %></td>
+                                    <td><%= ref.phone %></td>
+                                    <td><%= ref.level %></td>
+                                    <td><%= new Date(ref.joinDate).toLocaleDateString('fa-IR') %></td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-4">
+                                    <i class="bi bi-people display-4 d-block mb-3"></i>
+                                    هنوز زیرمجموعه‌ای ندارید
+                                    <br>
+                                    <small>لینک دعوت خود را به اشتراک بگذارید</small>
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyReferral() {
+    const input = document.getElementById('referralLink');
+    input.select();
+    navigator.clipboard.writeText(input.value);
+    Swal.fire({
+        icon: 'success',
+        title: 'کپی شد!',
+        text: 'لینک دعوت شما کپی شد',
+        timer: 1500,
+        showConfirmButton: false
+    });
+}
+</script>
+
+<%- include('../partials/footer') %>
