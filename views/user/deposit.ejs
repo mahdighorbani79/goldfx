@@ -1,0 +1,79 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card bg-dark border-warning shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-plus-circle display-3 text-success"></i>
+                        <h3 class="gold-text fw-bold mt-2">واریز تتر</h3>
+                        <p class="text-muted">USDT را به آدرس زیر ارسال کنید</p>
+                    </div>
+
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <div class="alert alert-danger text-center"><%= error %></div>
+                    <% } %>
+
+                    <div class="bg-black rounded-3 p-4 mb-4 text-center border border-warning">
+                        <p class="text-muted mb-2">آدرس کیف پول (TRC20)</p>
+                        <div class="input-group">
+                            <input type="text" class="form-control bg-dark text-warning text-center fw-bold" 
+                                   value="TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t" id="walletAddress" readonly>
+                            <button class="btn btn-warning" onclick="copyAddress()">
+                                <i class="bi bi-clipboard"></i> کپی
+                            </button>
+                        </div>
+                        <p class="text-danger small mt-2">
+                            ⚠️ فقط از شبکه TRC20 استفاده کنید - حداقل واریز ۱۰ تتر
+                        </p>
+                    </div>
+
+                    <div class="alert alert-info small text-center">
+                        <i class="bi bi-info-circle"></i> 
+                        پس از واریز، شناسه تراکنش (TxID) را در فرم زیر وارد کنید
+                    </div>
+
+                    <form action="/user/deposit" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-white">مبلغ واریز (USDT)</label>
+                            <input type="number" name="amount" class="form-control bg-black text-white border-warning" 
+                                   placeholder="مبلغ واریزی را وارد کنید" min="10" step="1" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-white">شناسه تراکنش (TxID)</label>
+                            <input type="text" name="txHash" class="form-control bg-black text-white border-warning" 
+                                   placeholder="TxID یا Hash تراکنش را وارد کنید">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100 fw-bold py-2">
+                            <i class="bi bi-check-circle"></i> ثبت درخواست واریز
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="/user/deposit-history" class="text-muted text-decoration-none small">
+                            <i class="bi bi-clock-history"></i> مشاهده تاریخچه واریزها
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function copyAddress() {
+    const input = document.getElementById('walletAddress');
+    input.select();
+    navigator.clipboard.writeText(input.value);
+    Swal.fire({
+        icon: 'success',
+        title: 'کپی شد!',
+        text: 'آدرس کیف پول کپی شد',
+        timer: 1500,
+        showConfirmButton: false
+    });
+}
+</script>
+
+<%- include('../partials/footer') %>
