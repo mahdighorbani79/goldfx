@@ -1,0 +1,72 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card bg-dark border-warning shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <img src="/img/logo.svg" alt="GoldFX" width="60" height="60" class="mb-3">
+                        <h3 class="gold-text fw-bold">ورود به GoldFX</h3>
+                        <p class="text-muted">به پلتفرم سرمایه‌گذاری طلا خوش آمدید</p>
+                    </div>
+
+                    <% if (error) { %>
+                        <div class="alert alert-danger text-center"><%= error %></div>
+                    <% } %>
+
+                    <form action="/auth/login" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-white">شماره تلفن</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-black text-warning border-warning">
+                                    <i class="bi bi-phone"></i>
+                                </span>
+                                <input type="text" name="phone" class="form-control bg-black text-white border-warning" 
+                                       placeholder="مثال: 09123456789" required>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-white">رمز عبور</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-black text-warning border-warning">
+                                    <i class="bi bi-lock"></i>
+                                </span>
+                                <input type="password" name="password" class="form-control bg-black text-white border-warning" 
+                                       placeholder="رمز عبور خود را وارد کنید" required id="passwordInput">
+                                <span class="input-group-text bg-black text-warning border-warning" onclick="togglePassword()" style="cursor: pointer;">
+                                    <i class="bi bi-eye" id="eyeIcon"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 fw-bold py-2 mb-3">
+                            <i class="bi bi-box-arrow-in-right"></i> ورود
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="text-muted mb-0">حساب ندارید؟ 
+                            <a href="/auth/register" class="gold-text text-decoration-none fw-bold">ثبت‌نام کنید</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword() {
+    const input = document.getElementById('passwordInput');
+    const icon = document.getElementById('eyeIcon');
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('bi-eye', 'bi-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('bi-eye-slash', 'bi-eye');
+    }
+}
+</script>
+
+<%- include('../partials/footer') %>
