@@ -1,0 +1,53 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card bg-dark border-warning shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-dash-circle display-3 text-danger"></i>
+                        <h3 class="gold-text fw-bold mt-2">برداشت تتر</h3>
+                        <p class="text-muted">موجودی قابل برداشت: 
+                            <strong class="text-warning"><%= user.balance.toFixed(2) %> USDT</strong>
+                        </p>
+                    </div>
+
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <div class="alert alert-danger text-center"><%= error %></div>
+                    <% } %>
+
+                    <% if (typeof success !== 'undefined' && success) { %>
+                        <div class="alert alert-success text-center"><%= success %></div>
+                    <% } %>
+
+                    <form action="/user/withdraw" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-white">آدرس کیف پول مقصد (TRC20)</label>
+                            <input type="text" name="walletAddress" class="form-control bg-black text-white border-warning" 
+                                   placeholder="آدرس USDT خود را وارد کنید (TRC20)" required>
+                            <small class="text-danger">⚠️ فقط شبکه TRC20 - بازگشت اشتباه ممکن نیست</small>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-white">مبلغ برداشت (USDT)</label>
+                            <input type="number" name="amount" class="form-control bg-black text-white border-warning" 
+                                   placeholder="مبلغ مورد نظر را وارد کنید" min="20" max="<%= user.balance %>" step="1" required>
+                            <small class="text-muted">حداقل برداشت: ۲۰ USDT | حداکثر: <%= user.balance.toFixed(2) %> USDT</small>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100 fw-bold py-2">
+                            <i class="bi bi-send"></i> ثبت درخواست برداشت
+                        </button>
+                    </form>
+
+                    <div class="text-center mt-3">
+                        <a href="/user/withdraw-history" class="text-muted text-decoration-none small">
+                            <i class="bi bi-clock-history"></i> مشاهده تاریخچه برداشت‌ها
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
