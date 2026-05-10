@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> | GoldFX</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="icon" type="image/svg+xml" href="/img/logo.svg">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold gold-text" href="/">
+                <img src="/img/logo.svg" alt="GoldFX" width="40" height="40" class="me-2">
+                GoldFX
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= path === '/' ? 'active' : '' %>" href="/">صفحه اصلی</a>
+                    </li>
+                    <% if (user) { %>
+                        <% if (!user.isAdmin) { %>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/user/dashboard') ? 'active' : '' %>" href="/user/dashboard">داشبورد</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/user/deposit') && !path.includes('history') ? 'active' : '' %>" href="/user/deposit">واریز</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/user/withdraw') && !path.includes('history') ? 'active' : '' %>" href="/user/withdraw">برداشت</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/user/referral') ? 'active' : '' %>" href="/user/referral">زیرمجموعه</a>
+                            </li>
+                        <% } else { %>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/admin/dashboard') ? 'active' : '' %>" href="/admin/dashboard">پنل مدیریت</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/admin/users') && !path.includes('detail') ? 'active' : '' %>" href="/admin/users">کاربران</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/admin/transactions') ? 'active' : '' %>" href="/admin/transactions">تراکنش‌ها</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link <%= path.includes('/admin/festival') ? 'active' : '' %>" href="/admin/festival">جشنواره</a>
+                            </li>
+                        <% } %>
+                    <% } %>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <% if (user) { %>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-warning dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> <%= user.fullName %>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <% if (!user.isAdmin) { %>
+                                    <li><a class="dropdown-item" href="/user/profile"><i class="bi bi-gear"></i> پروفایل</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                <% } else { %>
+                                    <li><a class="dropdown-item" href="/admin/settings"><i class="bi bi-gear"></i> تنظیمات</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                <% } %>
+                                <li><a class="dropdown-item text-danger" href="/auth/logout"><i class="bi bi-box-arrow-left"></i> خروج</a></li>
+                            </ul>
+                        </div>
+                    <% } else { %>
+                        <a href="/auth/login" class="btn btn-outline-warning me-2">ورود</a>
+                        <a href="/auth/register" class="btn btn-warning">ثبت‌نام</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main class="min-vh-100">
