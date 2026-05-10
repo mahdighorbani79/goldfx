@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card bg-dark border-warning shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <img src="/img/logo.svg" alt="GoldFX" width="60" height="60" class="mb-3">
+                        <h3 class="gold-text fw-bold">ثبت‌نام در GoldFX</h3>
+                        <p class="text-muted">حساب خود را بسازید و سرمایه‌گذاری را شروع کنید</p>
+                    </div>
+
+                    <% if (error) { %>
+                        <div class="alert alert-danger text-center"><%= error %></div>
+                    <% } %>
+
+                    <% if (referral) { %>
+                        <div class="alert alert-success text-center small">
+                            <i class="bi bi-person-plus"></i> شما از طریق لینک دعوت ثبت‌نام می‌کنید
+                        </div>
+                    <% } %>
+
+                    <form action="/auth/register" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-white">نام و نام خانوادگی</label>
+                            <input type="text" name="fullName" class="form-control bg-black text-white border-warning" 
+                                   placeholder="نام خود را وارد کنید">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">شماره تلفن</label>
+                            <input type="text" name="phone" class="form-control bg-black text-white border-warning" 
+                                   placeholder="مثال: 09123456789" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">رمز عبور</label>
+                            <input type="password" name="password" class="form-control bg-black text-white border-warning" 
+                                   placeholder="حداقل ۶ کاراکتر" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-white">تکرار رمز عبور</label>
+                            <input type="password" name="password2" class="form-control bg-black text-white border-warning" 
+                                   placeholder="رمز عبور را دوباره وارد کنید" required>
+                        </div>
+                        <% if (referral) { %>
+                            <input type="hidden" name="referral" value="<%= referral %>">
+                        <% } %>
+                        <button type="submit" class="btn btn-warning w-100 fw-bold py-2 mb-3">
+                            <i class="bi bi-person-plus"></i> ثبت‌نام
+                        </button>
+                    </form>
+
+                    <div class="text-center">
+                        <p class="text-muted mb-0">قبلاً ثبت‌نام کرده‌اید؟ 
+                            <a href="/auth/login" class="gold-text text-decoration-none fw-bold">وارد شوید</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
