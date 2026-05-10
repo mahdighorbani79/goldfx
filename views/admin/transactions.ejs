@@ -1,0 +1,122 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="gold-text fw-bold">
+            <i class="bi bi-arrow-left-right"></i> مدیریت تراکنش‌ها
+        </h3>
+        <div>
+            <a href="/admin/transactions?filter=all" class="btn btn-outline-warning btn-sm">همه</a>
+            <a href="/admin/transactions?filter=pending" class="btn btn-outline-danger btn-sm">در انتظار</a>
+            <a href="/admin/transactions?filter=deposit" class="btn btn-outline-success btn-sm">واریزها</a>
+            <a href="/admin/transactions?filter=withdraw" class="btn btn-outline-info btn-sm">برداشت‌ها</a>
+        </div>
+    </div>
+
+    <div class="card bg-dark border-0 shadow">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr class="text-warning">
+                            <th>کاربر</th>
+                            <th>نوع</th>
+                            <th>مبلغ (USDT)</th>
+                            <th>وضعیت</th>
+                            <th>TxID / آدرس</th>
+                            <th>تاریخ</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (transactions.length > 0) { %>
+                            <% transactions.forEach(tx => { %>
+                                <tr>
+                                    <td><%= tx.userId ? tx.userId.fullName : '---' %></td>
+                                    <td>
+                                        <% if (tx.type === 'deposit') { %>
+                                            <span class="badge bg-success">واریز</span>
+                                        <% } else if (tx.type === 'withdraw') { %>
+                                            <span class="badge bg-danger">برداشت</span>
+                                        <% } else if (tx.type === 'profit') { %>
+                                            <span class="badge bg-info">سود</span>
+                                        <% } else { %>
+                                            <span class="badge bg-warning">رفرال</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="fw-bold"><%= tx.amount.toFixed(2) %></td>
+                                    <td>
+                                        <% if (tx.status === 'approved') { %>
+                                            <span class="text-success">✅ تأیید شده</span>
+                                        <% } else if (tx.status === 'pending') { %>
+                                            <span class="text-warning">⏳ در انتظار</span>
+                                        <% } else { %>
+                                            <span class="text-danger">❌ رد شده</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="small text-muted">
+                                        <%= (tx.txHash || tx.walletAddress || '---').slice(0, 15) %>
+                                    </td>
+                                    <td class="small"><%= new Date(tx.date).toLocaleString('fa-IR') %></td>
+                                    <td>
+                                        <% if (tx.status === 'pending') { %>
+                                            <div class="btn-group btn-group-sm">
+                                                <form action="/admin/transactions/<%= tx._id %>/approve" method="POST" style="display:inline">
+                                                    <input type="hidden" name="note" value="تأیید توسط ادمین">
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        <i class="bi bi-check"></i>
+                                                    </button>
+                                                </form>
+                                                <button class="btn btn-danger btn-sm" onclick="rejectTx('<%= tx._id %>')">
+                                                    <i class="bi bi-x"></i>
+                                                </button>
+                                            </div>
+                                        <% } else { %>
+                                            <small class="text-muted">انجام شده</small>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="7" class="text-center text-muted py-4">
+                                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                                    تراکنشی یافت نشد
+                                </td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function rejectTx(id) {
+    Swal.fire({
+        title: 'علت رد شدن؟',
+        input: 'text',
+        inputPlaceholder: 'دلیل رد تراکنش را بنویسید',
+        showCancelButton: true,
+        confirmButtonText: 'رد کن',
+        cancelButtonText: 'انصراف',
+        confirmButtonColor: '#dc3545'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/admin/transactions/' + id + '/reject';
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'note';
+            input.value = result.value || 'رد شده';
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    });
+}
+</script>
+
+<%- include('../partials/footer') %>
