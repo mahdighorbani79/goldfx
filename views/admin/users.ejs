@@ -1,0 +1,63 @@
+<%- include('../partials/header') %>
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="gold-text fw-bold">
+            <i class="bi bi-people"></i> مدیریت کاربران
+        </h3>
+        <span class="badge bg-warning text-dark p-2">تعداد: <%= users.length %> کاربر</span>
+    </div>
+
+    <div class="card bg-dark border-0 shadow">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-dark table-striped mb-0">
+                    <thead>
+                        <tr class="text-warning">
+                            <th>#</th>
+                            <th>نام</th>
+                            <th>شماره</th>
+                            <th>موجودی</th>
+                            <th>کل واریز</th>
+                            <th>کل سود</th>
+                            <th>سطح</th>
+                            <th>تاریخ عضویت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (users.length > 0) { %>
+                            <% users.forEach((user, index) => { %>
+                                <tr>
+                                    <td><%= index + 1 %></td>
+                                    <td><%= user.fullName %></td>
+                                    <td><%= user.phone %></td>
+                                    <td class="fw-bold text-warning"><%= user.balance.toFixed(2) %></td>
+                                    <td><%= user.totalDeposit.toFixed(2) %></td>
+                                    <td><%= user.totalProfit.toFixed(2) %></td>
+                                    <td>
+                                        <span class="badge bg-<%= user.level === 'diamond' ? 'info' : user.level === 'gold' ? 'warning' : user.level === 'silver' ? 'secondary' : 'dark' %>">
+                                            <%= user.level %>
+                                        </span>
+                                    </td>
+                                    <td><%= new Date(user.joinDate).toLocaleDateString('fa-IR') %></td>
+                                    <td>
+                                        <a href="/admin/users/<%= user._id %>" class="btn btn-warning btn-sm">
+                                            <i class="bi bi-eye"></i> جزئیات
+                                        </a>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="9" class="text-center text-muted py-4">کاربری یافت نشد</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
