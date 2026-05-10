@@ -1,0 +1,74 @@
+<%- include('../partials/header') %>
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card bg-dark border-warning shadow-lg">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <i class="bi bi-person-circle display-3 text-warning"></i>
+                        <h3 class="gold-text fw-bold mt-2">پروفایل کاربری</h3>
+                    </div>
+
+                    <% if (typeof error !== 'undefined' && error) { %>
+                        <div class="alert alert-danger text-center"><%= error %></div>
+                    <% } %>
+                    <% if (typeof success !== 'undefined' && success) { %>
+                        <div class="alert alert-success text-center"><%= success %></div>
+                    <% } %>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <div class="bg-black rounded p-3 text-center border border-warning">
+                                <small class="text-muted">سطح کاربری</small>
+                                <h5 class="gold-text"><%= user.level %></h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="bg-black rounded p-3 text-center border border-warning">
+                                <small class="text-muted">کد رفرال</small>
+                                <h5 class="gold-text"><%= user.referralCode %></h5>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="/user/profile" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label text-white">نام و نام خانوادگی</label>
+                            <input type="text" name="fullName" class="form-control bg-black text-white border-warning" 
+                                   value="<%= user.fullName %>">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">شماره تلفن</label>
+                            <input type="text" class="form-control bg-black text-white border-warning" 
+                                   value="<%= user.phone %>" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-white">ایمیل (اختیاری)</label>
+                            <input type="email" name="email" class="form-control bg-black text-white border-warning" 
+                                   value="<%= user.email || '' %>">
+                        </div>
+                        <hr class="border-warning">
+                        <p class="text-muted small">برای تغییر رمز عبور فیلدهای زیر را پر کنید</p>
+                        <div class="mb-3">
+                            <label class="form-label text-white">رمز عبور فعلی</label>
+                            <input type="password" name="password" class="form-control bg-black text-white border-warning" 
+                                   placeholder="رمز فعلی">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label text-white">رمز عبور جدید</label>
+                            <input type="password" name="newPassword" class="form-control bg-black text-white border-warning" 
+                                   placeholder="رمز جدید (حداقل ۶ کاراکتر)">
+                            <small class="text-danger">⚠️ پس از تغییر رمز، برداشت ۲۴ ساعت قفل می‌شود</small>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 fw-bold py-2">
+                            <i class="bi bi-check-circle"></i> ذخیره تغییرات
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>
